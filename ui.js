@@ -1,19 +1,8 @@
+import { Store } from "./store.js";
+
 export class UI {
   static displayItems() {
-    const storedItems = [
-      {
-        name: "Memoria Ram 8gb Hyperx",
-        price: 150.25,
-        code: "123ASDASDAXD",
-      },
-      {
-        name: "SDD 256GB Kingstone",
-        price: 102.1,
-        code: "213EZXC2ZZZ",
-      },
-    ];
-
-    const items = storedItems;
+    const items = Store.getItems();
     items.forEach((item) => {
       return UI.addItem(item);
     });
@@ -29,5 +18,26 @@ export class UI {
     `;
 
     list.append(row);
+  }
+
+  static showAlerts(msg, className) {
+    const div = document.createElement("div");
+    div.className = `alert alert-${className}`;
+    div.append(document.createTextNode(msg));
+    const container = document.querySelector(".container");
+    const form = document.querySelector("#hardware-form");
+    container.insertBefore(div, form);
+    setTimeout(() => div.remove(), 3000);
+  }
+
+  static clearInputs() {
+    document.querySelector("#name").value = "";
+    document.querySelector("#price").value = "";
+    document.querySelector("#code").value = "";
+  }
+  static deleteItem(el) {
+    if (el.classList.contains("delete")) {
+      el.parentElement.parentElement.remove();
+    }
   }
 }
